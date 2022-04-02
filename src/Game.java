@@ -40,14 +40,30 @@ public class Game extends JFrame {
                     super.mousePressed(e);
                     int row = e.getY() / CELL_PIXEL_SIZE;
                     int column = e.getX() / CELL_PIXEL_SIZE;
-
                     Cell cell = board.getCell(row, column);
+                    int countCover = 0;
+                    int countFlag = 0;
+                    for (int tempRow = 0; tempRow < boardSize; tempRow++){
+                        for (int tempColumn = 0; tempColumn < boardSize; tempColumn++){
+                            Cell cellCondition = board.getCell(tempRow, tempColumn);
+                            if (cellCondition.isCovered()){
+                                countCover++;
+                            }
+                            if (cellCondition.isFlagged()) {
+                                countFlag++;
+                            }
+                        }
+                    }
                     if (!cell.isCovered()){
                         return;
                     }
                     if (SwingUtilities.isRightMouseButton(e)) {
-                        if (cell.isCovered()){
+                        if (countFlag < mineCount) {
+                           if (cell.isCovered()){
                             cell.setFlagged(!cell.isFlagged());
+                            } 
+                        } else {
+                            cell.setFlagged(false);
                         }
                     } else if (SwingUtilities.isLeftMouseButton(e)) {
                         if (!cell.isFlagged()) {
@@ -60,6 +76,16 @@ public class Game extends JFrame {
                                 board = new Board(boardSize, mineCount);
                                 gridUI = new GridUI();
                             }
+                        }
+                    } 
+                    if (SwingUtilities.isLeftMouseButton(e)) {
+                        if (countCover == mineCount) {
+                            JOptionPane.showMessageDialog(Game.this,
+                                "You win!",
+                                "Congratulations",
+                                JOptionPane.INFORMATION_MESSAGE);
+                            board = new Board(boardSize, mineCount);
+                            gridUI = new GridUI();
                         }
                     }
                     repaint();
