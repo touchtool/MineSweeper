@@ -54,9 +54,11 @@ public class Game extends JFrame {
                             board.uncover(row, column);
                             if (board.mineUncovered()){
                                 JOptionPane.showMessageDialog(Game.this,
-                                        "You lose!",
-                                        "You hit the mine",
-                                        JOptionPane.WARNING_MESSAGE);
+                                    "You lose!",
+                                    "You hit the mine",
+                                    JOptionPane.WARNING_MESSAGE);
+                                board = new Board(boardSize, mineCount);
+                                gridUI = new GridUI();
                             }
                         }
                     }
@@ -76,7 +78,6 @@ public class Game extends JFrame {
         }
 
         private void  paintCell(Graphics g, int row, int column){
-            // List<Color> colors = new ArrayList<Color>();
             Color [] colors = {
                 null,
                 Color.blue.darker(),
@@ -91,8 +92,6 @@ public class Game extends JFrame {
             int x = column * CELL_PIXEL_SIZE;
             int y = row * CELL_PIXEL_SIZE;
             Cell cell = board.getCell(row, column);
-            // Map<Integer, Color> color = new HashMap<Integer, Color>();
-            // color.put(1, Color.blue);
             if (cell.isCovered()) {
                 g.drawImage(imageCell, x, y, CELL_PIXEL_SIZE, CELL_PIXEL_SIZE, null, null);
             if (cell.isFlagged()) {
