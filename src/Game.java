@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -8,6 +10,9 @@ public class Game extends JFrame {
     private int boardSize = 20;
     private GridUI gridUI;
     private int mineCount = 40;
+    private int flagCount = 40;
+    private JLabel flags;
+    private JButton restart;
 
     public Game(){
         board = new Board(boardSize, mineCount);
@@ -15,10 +20,20 @@ public class Game extends JFrame {
         add(gridUI);
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
     }
 
     public void start(){
+//        restart = new JButton("Restart Game");
+//        restart.setPreferredSize(new Dimension(40, 40));
+//        restart.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                board = new Board(boardSize, mineCount);
+//                gridUI = new GridUI();
+//            }
+//        });
+//        add(restart);
+//        pack();
         setVisible(true);
     }
 
@@ -61,6 +76,11 @@ public class Game extends JFrame {
                         if (countFlag < mineCount) {
                            if (cell.isCovered()){
                             cell.setFlagged(!cell.isFlagged());
+                            if (cell.isFlagged()) {
+                                flagCount--;
+                            } else {
+                                flagCount++;
+                            }
                             } 
                         } else {
                             cell.setFlagged(false);
@@ -101,6 +121,9 @@ public class Game extends JFrame {
                     paintCell(g, row, column);
                 }
             }
+            g.setFont(new Font("default", Font.BOLD, 16));
+            g.setColor(Color.black);
+            g.drawString("Flags: " + flagCount, 20, 20);
         }
 
         private void  paintCell(Graphics g, int row, int column){
