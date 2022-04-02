@@ -76,9 +76,23 @@ public class Game extends JFrame {
         }
 
         private void  paintCell(Graphics g, int row, int column){
+            // List<Color> colors = new ArrayList<Color>();
+            Color [] colors = {
+                null,
+                Color.blue.darker(),
+                Color.green.darker(),
+                Color.orange.darker(),
+                Color.magenta.darker(),
+                Color.red.darker(),
+                Color.yellow.darker(),
+                Color.pink.darker(),
+                Color.black.darker()
+            };
             int x = column * CELL_PIXEL_SIZE;
             int y = row * CELL_PIXEL_SIZE;
             Cell cell = board.getCell(row, column);
+            // Map<Integer, Color> color = new HashMap<Integer, Color>();
+            // color.put(1, Color.blue);
             if (cell.isCovered()) {
                 g.drawImage(imageCell, x, y, CELL_PIXEL_SIZE, CELL_PIXEL_SIZE, null, null);
             if (cell.isFlagged()) {
@@ -93,7 +107,8 @@ public class Game extends JFrame {
                 if (cell.isMine()) {
                     g.drawImage(imageMine, x, y, CELL_PIXEL_SIZE, CELL_PIXEL_SIZE, null, null);
                 } else if (cell.getAdjacentMines() > 0){
-                    g.setColor(Color.black);
+                    g.setFont(new Font("default", Font.BOLD, 16));
+                    g.setColor(colors[cell.getAdjacentMines()]);
                     g.drawString(cell.getAdjacentMines() + "",
                             x + (int)(CELL_PIXEL_SIZE * 0.35),
                             y + (int)(CELL_PIXEL_SIZE*0.65));
