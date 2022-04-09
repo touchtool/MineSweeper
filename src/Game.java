@@ -9,8 +9,8 @@ public class Game extends JFrame {
     private Board board;
     private int boardSize = 20;
     private GridUI gridUI;
-    private int mineCount = 10;
-    private int flagCount = 10;
+    private int mineCount = 40;
+    private int flagCount = 40;
     private JButton restart;
 
     public Game(){
