@@ -66,17 +66,7 @@ public class Game extends JFrame {
                     Cell cell = board.getCell(row, column);
                     int countCover = 0;
                     int countFlag = 0;
-                    for (int tempRow = 0; tempRow < boardSize; tempRow++){
-                        for (int tempColumn = 0; tempColumn < boardSize; tempColumn++){
-                            Cell cellCondition = board.getCell(tempRow, tempColumn);
-                            if (cellCondition.isCovered()){
-                                countCover++;
-                            }
-                            if (cellCondition.isFlagged()) {
-                                countFlag++;
-                            }
-                        }
-                    }
+                    
                     if (!cell.isCovered()){
                         return;
                     }
@@ -103,6 +93,17 @@ public class Game extends JFrame {
                                     JOptionPane.WARNING_MESSAGE);
                                 board = new Board(boardSize, mineCount);
                                 gridUI = new GridUI();
+                            }
+                        }
+                    }
+                    for (int tempRow = 0; tempRow < boardSize; tempRow++){
+                        for (int tempColumn = 0; tempColumn < boardSize; tempColumn++){
+                            Cell cellCondition = board.getCell(tempRow, tempColumn);
+                            if (cellCondition.isCovered()){
+                                countCover++;
+                            }
+                            if (cellCondition.isFlagged()) {
+                                countFlag++;
                             }
                         }
                     }
