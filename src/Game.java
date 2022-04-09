@@ -9,22 +9,30 @@ public class Game extends JFrame {
     private Board board;
     private int boardSize = 20;
     private GridUI gridUI;
-    private int mineCount = 40;
-    private int flagCount = 40;
-    private JLabel flags;
+    private int mineCount = 10;
+    private int flagCount = 10;
     private JButton restart;
 
     public Game(){
+        setLayout(new BorderLayout());
         board = new Board(boardSize, mineCount);
         gridUI = new GridUI();
-        add(gridUI);
+        restart = new JButton("Restart");
+        restart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                board = new Board(boardSize, mineCount);
+                gridUI = new GridUI();
+                repaint();
+            }
+        });
+        add(restart, BorderLayout.SOUTH);
+        add(gridUI, BorderLayout.NORTH);
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public void start(){
-//        restart = new JButton("Restart Game");
-//        restart.setPreferredSize(new Dimension(40, 40));
 //        restart.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
@@ -76,7 +84,7 @@ public class Game extends JFrame {
                         if (countFlag < mineCount) {
                            if (cell.isCovered()){
                             cell.setFlagged(!cell.isFlagged());
-                            if (cell.isFlagged()) {
+                            if (cell.isFlagged() && flagCount > 0) {
                                 flagCount--;
                             } else {
                                 flagCount++;
@@ -97,16 +105,14 @@ public class Game extends JFrame {
                                 gridUI = new GridUI();
                             }
                         }
-                    } 
-                    if (SwingUtilities.isLeftMouseButton(e)) {
-                        if (countCover == mineCount) {
-                            JOptionPane.showMessageDialog(Game.this,
+                    }
+                    if (countCover == mineCount) {
+                        JOptionPane.showMessageDialog(Game.this,
                                 "You win!",
                                 "Congratulations",
                                 JOptionPane.INFORMATION_MESSAGE);
-                            board = new Board(boardSize, mineCount);
-                            gridUI = new GridUI();
-                        }
+                        board = new Board(boardSize, mineCount);
+                        gridUI = new GridUI();
                     }
                     repaint();
                 }
